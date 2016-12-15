@@ -9,7 +9,7 @@ class NadaVersion(models.Model):
 
 
 class NadaMakeName(models.Model):
-    _name = 'nada.makename'
+    _name = 'nada.make_template'
 
     name = fields.Char()
 
@@ -18,19 +18,16 @@ class NadaCategory(models.Model):
     _name = 'nada.category'
 
     name = fields.Char()
-#     value = fields.Integer()
-#     value2 = fields.Float(compute="_value_pc", store=True)
-#     description = fields.Text()
-#
-#     @api.depends('value')
-#     def _value_pc(self):
-#         self.value2 = float(self.value) / 100
 
 
 class NadaMake(models.Model):
     _name = 'nada.make'
+    _inherits = {
+        'nada.make_template': 'make_template_id',
+        'nada.version': 'version_id',
+        'nada.category': 'category_id'
+    }
 
-    name_id = fields.Many2one('nada.makename')
+    make_template_id = fields.Many2one('nada.make_template')
     category_id = fields.Many2one('nada.category')
     version_id = fields.Many2one('nada.version')
-
